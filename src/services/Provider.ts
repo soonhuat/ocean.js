@@ -198,20 +198,22 @@ export class Provider {
    * @param {string} providerUri uri of the provider that will be used to check the file
    * @param {boolean} withChecksum if true, will return checksum of files content
    * @param {AbortSignal} signal abort signal
+   * @param {any} headers headers key value pairs associated with the asset GET request
    * @return {Promise<FileInfo[]>} urlDetails
    */
   public async getFileInfo(
     file: UrlFile | Arweave | Ipfs | GraphqlQuery | Smartcontract,
     providerUri: string,
     withChecksum: boolean = false,
-    signal?: AbortSignal
+    signal?: AbortSignal,
+    headers?: any
   ): Promise<FileInfo[]> {
     const providerEndpoints = await this.getEndpoints(providerUri)
     const serviceEndpoints = await this.getServiceEndpoints(
       providerUri,
       providerEndpoints
     )
-    const args = { ...file, checksum: withChecksum }
+    const args = { ...file, headers, checksum: withChecksum }
     const files: FileInfo[] = []
     const path = this.getEndpointURL(serviceEndpoints, 'fileinfo')
       ? this.getEndpointURL(serviceEndpoints, 'fileinfo').urlPath
