@@ -34,7 +34,7 @@ export declare class Provider {
      * @param {string} did did
      * @param {number} serviceId the id of the service for which to check the files
      * @param {string} providerUri uri of the provider that will be used to check the file
-     * @param {boolean} checksum if true, will return checksum of files content
+     * @param {boolean} withChecksum if true, will return checksum of files content
      * @param {AbortSignal} signal abort signal
      * @return {Promise<FileInfo[]>} urlDetails
      */
@@ -42,7 +42,7 @@ export declare class Provider {
     /** Get URL details (if possible)
      * @param {string} url or did
      * @param {string} providerUri uri of the provider that will be used to check the file
-     * @param {boolean} checksum if true, will return checksum of files content
+     * @param {boolean} withChecksum if true, will return checksum of files content
      * @param {AbortSignal} signal abort signal
      * @param {any} headers headers key value pairs associated with the asset GET request
      * @return {Promise<FileInfo[]>} urlDetails
