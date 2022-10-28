@@ -211,9 +211,6 @@ export class Provider {
       providerEndpoints
     )
     const args = { ...file, headers, checksum: withChecksum }
-    console.log('Provider getFileInfo withChecksum, ', withChecksum)
-    console.log('Provider getFileInfo headers, ', headers)
-    console.log('Provider getFileInfo args, ', args)
     const files: FileInfo[] = []
     const path = this.getEndpointURL(serviceEndpoints, 'fileinfo')
       ? this.getEndpointURL(serviceEndpoints, 'fileinfo').urlPath
