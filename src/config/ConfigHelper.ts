@@ -217,7 +217,9 @@ export class ConfigHelper {
     let config = configHelperNetworks.find((c) => c[filterBy] === network)
 
     if (!config) {
-      LoggerInstance.error(`No config found for given network '${network}'`)
+      LoggerInstance.error(
+        `No config found for given network '${network}' filter by '${filterBy}'`
+      )
       return null
     }
 
