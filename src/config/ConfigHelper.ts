@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/no-named-default
-import { default as DefaultContractsAddresses } from '@oceanprotocol/contracts/addresses/address.json'
+// import { default as DefaultContractsAddresses } from '@oceanprotocol/contracts/addresses/address.json'
 import { Config } from '.'
 import { LoggerInstance } from '../utils'
 // eslint-disable-next-line import/no-named-default
-import { default as CustomContractAddressess } from '../../address.json'
+import { default as DefaultContractsAddresses } from '../../address.json'
 
 const configHelperNetworksBase: Config = {
   chainId: null,
@@ -224,14 +224,13 @@ export class ConfigHelper {
     let config = configHelperNetworks.find((c) => c[filterBy] === network)
 
     if (!config) {
-      LoggerInstance.error(`No config found for given network '${network}'`)
+      LoggerInstance.error(
+        `No config found for given network '${network}' filter by '${filterBy}'`
+      )
       return null
     }
 
-    const contractAddressesConfig = this.getAddressesFromEnv(
-      config.network,
-      CustomContractAddressess
-    )
+    const contractAddressesConfig = this.getAddressesFromEnv(config.network)
     config = { ...config, ...contractAddressesConfig }
 
     const nodeUri = infuraProjectId
