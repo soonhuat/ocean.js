@@ -130,6 +130,16 @@ export const configHelperNetworks: Config[] = [
     subgraphUri: 'https://v4.subgraph.goerli.oceanprotocol.com',
     explorerUri: 'https://explorer-edgenet.polygon.technology/',
     gasFeeMultiplier: 1.05
+  },
+  {
+    ...configHelperNetworksBase,
+    chainId: 100,
+    network: 'gen-x-testnet',
+    nodeUri: 'https://rpc.genx.minimal-gaia-x.eu',
+    providerUri: 'https://v4.provider.goerli.oceanprotocol.com',
+    subgraphUri: 'https://v4.subgraph.goerli.oceanprotocol.com',
+    explorerUri: 'https://logging.genx.minimal-gaia-x.eu/',
+    gasFeeMultiplier: 1.05
   }
 ]
 
