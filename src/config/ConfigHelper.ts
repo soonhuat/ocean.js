@@ -10,7 +10,7 @@ const configHelperNetworksBase: Config = {
   network: 'unknown',
   metadataCacheUri: 'https://v4.aquarius.oceanprotocol.com',
   nodeUri: 'http://127.0.0.1:8545',
-  providerUri: 'http://127.0.0.1:8030',
+  providerUri: 'https://v4.provider.oceanprotocol.com',
   subgraphUri: null,
   explorerUri: null,
   oceanTokenAddress: null,
@@ -33,16 +33,20 @@ export const configHelperNetworks: Config[] = [
     ...configHelperNetworksBase,
     chainId: 8996,
     network: 'development',
+    // comment th following configs if running on macOS
     metadataCacheUri: 'http://172.15.0.5:5000',
     providerUri: 'http://172.15.0.4:8030',
-    subgraphUri: 'https://172.15.0.15:9000'
+    subgraphUri: 'https://172.15.0.15:8000'
+    // uncomment the following configs if running on macOS
+    // metadataCacheUri: 'http://127.0.0.1:5000',
+    // providerUri: 'http://127.0.0.1:8030/',
+    // subgraphUri: 'http://127.0.0.1:9000/'
   },
   {
     ...configHelperNetworksBase,
     chainId: 5,
     network: 'goerli',
     nodeUri: 'https://goerli.infura.io/v3',
-    providerUri: 'https://v4.provider.goerli.oceanprotocol.com',
     subgraphUri: 'https://v4.subgraph.goerli.oceanprotocol.com',
     explorerUri: 'https://goerli.etherscan.io',
     gasFeeMultiplier: 1.1
@@ -52,7 +56,6 @@ export const configHelperNetworks: Config[] = [
     chainId: 1,
     network: 'mainnet',
     nodeUri: 'https://mainnet.infura.io/v3',
-    providerUri: 'https://v4.provider.mainnet.oceanprotocol.com',
     subgraphUri: 'https://v4.subgraph.mainnet.oceanprotocol.com',
     explorerUri: 'https://etherscan.io',
     startBlock: 11105459,
@@ -66,7 +69,6 @@ export const configHelperNetworks: Config[] = [
     chainId: 137,
     network: 'polygon',
     nodeUri: 'https://polygon-mainnet.infura.io/v3',
-    providerUri: 'https://v4.provider.polygon.oceanprotocol.com',
     subgraphUri: 'https://v4.subgraph.polygon.oceanprotocol.com',
     explorerUri: 'https://polygonscan.com',
     oceanTokenSymbol: 'mOCEAN',
@@ -86,7 +88,6 @@ export const configHelperNetworks: Config[] = [
     chainId: 80001,
     network: 'mumbai',
     nodeUri: 'https://polygon-mumbai.infura.io/v3',
-    providerUri: 'https://v4.provider.mumbai.oceanprotocol.com',
     subgraphUri: 'https://v4.subgraph.mumbai.oceanprotocol.com',
     explorerUri: 'https://mumbai.polygonscan.com',
     gasFeeMultiplier: 1.1
@@ -96,7 +97,6 @@ export const configHelperNetworks: Config[] = [
     chainId: 56,
     network: 'bsc',
     nodeUri: 'https://bsc-dataseed.binance.org',
-    providerUri: 'https://v4.provider.bsc.oceanprotocol.com',
     subgraphUri: 'https://v4.subgraph.bsc.oceanprotocol.com',
     explorerUri: 'https://bscscan.com/',
     gasFeeMultiplier: 1.05
@@ -106,7 +106,6 @@ export const configHelperNetworks: Config[] = [
     chainId: 246,
     network: 'energyweb',
     nodeUri: 'https://rpc.energyweb.org',
-    providerUri: 'https://v4.provider.energyweb.oceanprotocol.com',
     subgraphUri: 'https://v4.subgraph.energyweb.oceanprotocol.com',
     explorerUri: 'https://explorer.energyweb.org',
     gasFeeMultiplier: 1.05
@@ -116,7 +115,6 @@ export const configHelperNetworks: Config[] = [
     chainId: 1285,
     network: 'moonriver',
     nodeUri: 'https://moonriver.api.onfinality.io/public',
-    providerUri: 'https://v4.provider.moonriver.oceanprotocol.com',
     subgraphUri: 'https://v4.subgraph.moonriver.oceanprotocol.com',
     explorerUri: 'https://moonriver.moonscan.io/',
     gasFeeMultiplier: 1.05
@@ -229,6 +227,12 @@ export class ConfigHelper {
     return configAddresses
   }
 
+  /**
+   * Returns the config object for a specific network supported by the oceanprotocol stack
+   * @param {string | number} network the network's chainId or name
+   * @param {string} infuraProjectId optional infura project id that will replace the configs node URI
+   * @return {Config} Config obhjedct
+   */
   public getConfig(network: string | number, infuraProjectId?: string): Config {
     const filterBy = typeof network === 'string' ? 'network' : 'chainId'
     let config = configHelperNetworks.find((c) => c[filterBy] === network)
