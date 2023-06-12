@@ -233,6 +233,9 @@ export class ConfigHelper {
       return null
     }
 
+    LoggerInstance.debug(
+      `getConfig getAddressesFromEnv after filter by '${filterBy}' to network'${config?.network}'`
+    )
     const contractAddressesConfig = this.getAddressesFromEnv(config.network)
     config = { ...config, ...contractAddressesConfig }
 
