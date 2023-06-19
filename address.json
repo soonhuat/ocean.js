@@ -285,20 +285,19 @@
   },
   "gen-x-testnet": {
     "chainId": 100,
-    "Ocean": "0x0995527d3473b3a98c471f1ed8787acd77fbf009",
-    "OceanToken": "0x0995527d3473b3a98c471f1ed8787acd77fbf009",
+    "Ocean": "0x0995527d3473b3A98C471f1ED8787ACD77fBF009",
     "OPFCommunityFeeCollector": "0x881b0E849745A65e2E082B629b5C7EDa500768fb",
-    "CommunityFeeCollector": "0x881b0E849745A65e2E082B629b5C7EDa500768fb",
-    "startBlock": 6860326,
+    "startBlock": 6943161,
     "Router": "0x7f3414Da079706b9675984D10F9FFa958456f1bc",
     "FixedPrice": "0x03c2375A40cEAF427F7738693AD81C34F765f4f1",
     "Staking": "0xf3a853de3D179b0Ed5BA6E71ABB3600EB614e020",
-    "ERC20Templates": {
+    "ERC20Template": {
       "1": "0x6FC22510CD159724F6fD23c7C068866047cCAe3b",
       "2": "0x5f8463174bCCEEBF60edd77303275F87CDEa6690"
     },
+    "templateERC20": "0x6FC22510CD159724F6fD23c7C068866047cCAe3b",
     "ERC721Template": {
-      "1:": "0xD6E0EF71AECedA1d3c6A4a3BcfFCb2EB6bfaF469"
+      "1": "0xD6E0EF71AECedA1d3c6A4a3BcfFCb2EB6bfaF469"
     },
     "Dispenser": "0x5cC523863d29a0a588747627c30D72E991489B66",
     "ERC721Factory": "0xc6cf0aec4Dc43E2925F62681EEb66Aa5D24c1ce3"
@@ -320,5 +319,23 @@
     },
     "Dispenser": "0xDEfD0018969cd2d4E648209F876ADe184815f038",
     "ERC721Factory": "0x9C9eE07b8Ce907D2f9244F8317C1Ed29A3193bAe"
+  },
+  "sepolia": {
+    "chainId": 11155111,
+    "Ocean": "0xE371731B215490FF9525c57c8DA6393555cbfFA3",
+    "OPFCommunityFeeCollector": "0xeA2405327195016C62e6588d504b7883425fF514",
+    "startBlock": 3715278,
+    "Router": "0x2f6160dc836c9Ea5069Cd282d24512bDef06f526",
+    "FixedPrice": "0x3D3AcA34DAdCe6d7bA10ebCF54CdC86981bBd51b",
+    "Staking": "0x55381Fa8a7A4e0FE6b28e11411af8369F972b33b",
+    "ERC20Template": {
+      "1": "0x08b9C0B92c677e0DF71101F4dA7F8730D45D5edc",
+      "2": "0xEFcfC011fe760D8b92502f39C6FD7e9fFcc7D003"
+    },
+    "ERC721Template": {
+      "1": "0x94703cC00c009a303AB3C45d1eBf254609534c3a"
+    },
+    "Dispenser": "0x6C5B8bf57372851ED4481b36A39082900d0043dC",
+    "ERC721Factory": "0xb5e8C263ebdeC4ee34efef0e83174771429348DB"
   }
 }

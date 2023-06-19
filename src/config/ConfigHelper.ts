@@ -49,6 +49,16 @@ export const configHelperNetworks: Config[] = [
   },
   {
     ...configHelperNetworksBase,
+    chainId: 11155111,
+    network: 'sepolia',
+    nodeUri: 'https://sepolia.infura.io/v3',
+    providerUri: 'https://v4.provider.goerli.oceanprotocol.com',
+    subgraphUri: 'https://v4.subgraph.goerli.oceanprotocol.com',
+    explorerUri: 'https://sepolia.etherscan.io',
+    gasFeeMultiplier: 1.1
+  },
+  {
+    ...configHelperNetworksBase,
     chainId: 1,
     network: 'mainnet',
     nodeUri: 'https://mainnet.infura.io/v3',
