@@ -223,7 +223,7 @@ export class Provider {
       response.statusText,
       resolvedResponse
     )
-    throw new Error(resolvedResponse?.error)
+    throw new Error(JSON.stringify(resolvedResponse))
   }
 
   /**
@@ -280,7 +280,7 @@ export class Provider {
       response.statusText,
       resolvedResponse
     )
-    throw new Error(resolvedResponse?.error)
+    throw new Error(JSON.stringify(resolvedResponse))
   }
 
   /**
@@ -327,7 +327,7 @@ export class Provider {
       response.statusText,
       resolvedResponse
     )
-    throw new Error(resolvedResponse?.error)
+    throw new Error(JSON.stringify(resolvedResponse))
   }
 
   /**
@@ -395,7 +395,7 @@ export class Provider {
       response.statusText,
       resolvedResponse
     )
-    throw new Error(resolvedResponse?.error)
+    throw new Error(JSON.stringify(resolvedResponse))
   }
 
   /** Initializes the provider for a compute request.
@@ -457,7 +457,7 @@ export class Provider {
       resolvedResponse
     )
     LoggerInstance.error('Payload was:', providerData)
-    throw new Error(resolvedResponse?.error)
+    throw new Error(JSON.stringify(resolvedResponse))
   }
 
   /**
@@ -650,7 +650,7 @@ export class Provider {
       resolvedResponse
     )
     LoggerInstance.error('Payload was:', payload)
-    throw new Error(resolvedResponse?.error)
+    throw new Error(JSON.stringify(resolvedResponse))
   }
 
   /** Get compute status for a specific jobId/documentId/owner.
@@ -714,7 +714,7 @@ export class Provider {
       response.statusText,
       resolvedResponse
     )
-    throw new Error(resolvedResponse?.error)
+    throw new Error(JSON.stringify(resolvedResponse))
   }
 
   /** Get compute result url
@@ -825,7 +825,7 @@ export class Provider {
       resolvedResponse
     )
     LoggerInstance.error('Payload was:', payload)
-    throw new Error(resolvedResponse?.error)
+    throw new Error(JSON.stringify(resolvedResponse))
   }
 
   /** Check for a valid provider at URL
