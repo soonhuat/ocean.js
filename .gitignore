@@ -1,4 +1,5 @@
 node_modules/
+dist/
 .nyc_output/
 coverage/
 doc/
@@ -9,4 +10,3 @@ src/metadata\.json
 .idea
 .vscode
 .DS_Store
-dist/

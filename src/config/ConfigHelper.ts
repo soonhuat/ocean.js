@@ -147,6 +147,16 @@ export const configHelperNetworks: Config[] = [
     subgraphUri: 'https://v4.subgraph.goerli.oceanprotocol.com',
     explorerUri: 'https://logging.genx.minimal-gaia-x.eu/',
     gasFeeMultiplier: 1.05
+  },
+  {
+    ...configHelperNetworksBase,
+    chainId: 13520,
+    network: 'acentrik-testnet',
+    nodeUri: '',
+    providerUri: 'https://v4.provider.goerli.oceanprotocol.com',
+    subgraphUri: 'https://v4.subgraph.goerli.oceanprotocol.com',
+    explorerUri: '',
+    gasFeeMultiplier: 1.05
   }
 ]
 
