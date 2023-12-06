@@ -255,6 +255,7 @@ export class ConfigHelper {
   public getConfig(network: string | number, infuraProjectId?: string): Config {
     const filterBy = typeof network === 'string' ? 'network' : 'chainId'
     let config = configHelperNetworks.find((c) => c[filterBy] === network)
+    console.log(`debug configHelperNetworks: `, configHelperNetworks)
 
     if (!config) {
       LoggerInstance.error(
