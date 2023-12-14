@@ -1,7 +1,14 @@
 import { ethers, Signer, providers, Contract, ContractFunction, BigNumber } from 'ethers'
 
 import { Config } from '../config'
-import { minAbi, GASLIMIT_DEFAULT, LoggerInstance, FEE_HISTORY_NOT_SUPPORTED } from '.'
+import {
+  minAbi,
+  GASLIMIT_DEFAULT,
+  LoggerInstance,
+  FEE_HISTORY_NOT_SUPPORTED,
+  GAS_PRICE,
+  GASLIMIT
+} from '.'
 
 const MIN_GAS_FEE_POLYGON = 30000000000 // minimum recommended 30 gwei polygon main and mumbai fees
 const POLYGON_NETWORK_ID = 137
@@ -147,6 +154,10 @@ export async function sendTx(
     }
   }
   overrides.gasLimit = estGas.add(20000)
+  if (chainId === 13520) {
+    overrides.gasLimit = GASLIMIT
+    overrides.gasPrice = GAS_PRICE
+  }
   try {
     const trxReceipt = await functionToSend(...args, overrides)
     return trxReceipt
