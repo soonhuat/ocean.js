@@ -155,7 +155,7 @@ export async function sendTx(
   }
   overrides.gasLimit = estGas.add(20000)
   if (chainId === 13520) {
-    overrides.gasLimit = GASLIMIT
+    overrides.gasLimit = overrides.gasLimit || GASLIMIT
     overrides.gasPrice = GAS_PRICE
   }
   try {

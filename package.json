@@ -1,7 +1,7 @@
 {
   "name": "@oceanprotocol/lib",
   "source": "./src/index.ts",
-  "version": "3.0.2-acentrik-testnet",
+  "version": "3.0.2-acentrik-testnet-alpha-5",
   "description": "JavaScript client library for Ocean Protocol",
   "main": "./dist/lib.js",
   "umd:main": "dist/lib.umd.js",
