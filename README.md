@@ -63,6 +63,31 @@ npm install
 npm start
 ```
 
+
+```
+Login to AWS CodeArtifact
+
+```bash
+aws codeartifact login --tool npm --domain acentrik --domain-owner 540306422608 --repository package-js
+```
+
+Set AUTH Token to ENV VAR for npm install authentication with AWS CodeArtifact Registry
+
+```bash
+export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain acentrik --domain-owner 540306422608 --query authorizationToken --output text`
+```
+
+```Short cut Login and export CodeArtifact
+
+```bash
+aws codeartifact login --tool npm --domain acentrik --domain-owner 540306422608 --repository package-js
+
+export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain acentrik --domain-owner 540306422608 --query authorizationToken --output text`
+
+```
+
+```
+
 ## ✨ Code Style
 
 For linting and auto-formatting you can use from the root of the project:
@@ -127,6 +152,7 @@ npm run test:integration
 # same thing, but with coverage reporting
 npm run test:integration:cover
 ```
+
 
 > Note: On macOS, changes to the `provider`, `metadataCache` and `subgraph` URLs are required, as their default `barge` IPs can not be accessed due to network constraints on macOS. Instead use `http://127.0.0.1` for each direct call to the mentioned services, but keep the internal `provider` URL (`http://172.15.0.4:8030`) hardcoded inside all DDO's `serviceEndpoint`, and when calling `nft.setMetadata()`.
 
