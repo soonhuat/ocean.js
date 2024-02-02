@@ -8,7 +8,6 @@ import {
   Aquarius,
   NftFactory,
   NftCreateData,
-  getHash,
   ZERO_ADDRESS,
   Nft,
   approve,
@@ -139,7 +138,7 @@ describe('Publish tests', async () => {
       fixedRate: '1',
       marketFee: '0',
       allowedConsumer: await publisherAccount.getAddress(),
-      withMint: false
+      withMint: true
     }
 
     const bundleNFT = await factory.createNftWithDatatokenWithFixedRate(

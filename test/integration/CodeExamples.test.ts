@@ -94,7 +94,6 @@ import {
   Files,
   FixedRateExchange,
   FreCreationParams,
-  getHash,
   Nft,
   NftCreateData,
   NftFactory,
@@ -108,7 +107,8 @@ import {
   amountToUnits,
   ValidateMetadata,
   getEventFromTx,
-  DDO
+  DDO,
+  LoggerInstance
 } from '../../src'
 /// ```
 
@@ -564,6 +564,7 @@ describe('Marketplace flow tests', async () => {
       const fileData = await downloadFile(downloadURL)
       console.log(fileData)
     } catch (e) {
+      LoggerInstance.error('Download failed', e)
       assert.fail('Download failed')
     }
   }) ///

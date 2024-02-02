@@ -83,7 +83,7 @@ export class Provider {
     signal?: AbortSignal,
     providerEndpoints?: any,
     serviceEndpoints?: ServiceEndpoint[]
-  ): Promise<string> {
+  ): Promise<number> {
     if (!providerEndpoints) {
       providerEndpoints = await this.getEndpoints(providerUri)
     }
@@ -100,10 +100,13 @@ export class Provider {
         headers: { 'Content-Type': 'application/json' },
         signal
       })
-      return (await response.json()).nonce.toString()
+      const { nonce } = await response.json()
+      console.log(`[getNonce] Consumer: ${consumerAddress} nonce: ${nonce}`)
+      const sanitizedNonce = !nonce || nonce === null ? 0 : Number(nonce)
+      return sanitizedNonce
     } catch (e) {
       LoggerInstance.error(e)
-      throw new Error('HTTP request failed calling Provider')
+      throw new Error(e.message)
     }
   }
 
@@ -123,12 +126,16 @@ export class Provider {
     )
     const messageHashBytes = ethers.utils.arrayify(consumerMessage)
     const chainId = await signer.getChainId()
-    if (chainId === 8996) {
-      return await (signer as providers.JsonRpcSigner)._legacySignMessage(
-        messageHashBytes
-      )
+    try {
+      return await signer.signMessage(messageHashBytes)
+    } catch (error) {
+      LoggerInstance.error('Sign provider message error: ', error)
+      if (chainId === 8996) {
+        return await (signer as providers.JsonRpcSigner)._legacySignMessage(
+          messageHashBytes
+        )
+      }
     }
-    return await signer.signMessage(messageHashBytes)
   }
 
   /**
@@ -489,14 +496,24 @@ export class Provider {
       ? this.getEndpointURL(serviceEndpoints, 'download').urlPath
       : null
     if (!downloadUrl) return null
-    const nonce = Date.now()
+    const consumerAddress = await signer.getAddress()
+    const nonce = (
+      (await this.getNonce(
+        providerUri,
+        consumerAddress,
+        null,
+        providerEndpoints,
+        serviceEndpoints
+      )) + 1
+    ).toString()
+
     const signature = await this.signProviderRequest(signer, did + nonce)
     let consumeUrl = downloadUrl
     consumeUrl += `?fileIndex=${fileIndex}`
     consumeUrl += `&documentId=${did}`
     consumeUrl += `&transferTxId=${transferTxId}`
     consumeUrl += `&serviceId=${serviceId}`
-    consumeUrl += `&consumerAddress=${await signer.getAddress()}`
+    consumeUrl += `&consumerAddress=${consumerAddress}`
     consumeUrl += `&nonce=${nonce}`
     consumeUrl += `&signature=${signature}`
     if (userCustomParameters)
@@ -534,19 +551,29 @@ export class Provider {
       ? this.getEndpointURL(serviceEndpoints, 'computeStart').urlPath
       : null
 
-    const nonce = Date.now()
-    let signatureMessage = await consumer.getAddress()
+    const consumerAddress = await consumer.getAddress()
+    const nonce = (
+      (await this.getNonce(
+        providerUri,
+        consumerAddress,
+        signal,
+        providerEndpoints,
+        serviceEndpoints
+      )) + 1
+    ).toString()
+
+    let signatureMessage = consumerAddress
     signatureMessage += dataset.documentId
     signatureMessage += nonce
     const signature = await this.signProviderRequest(consumer, signatureMessage)
     const payload = Object()
-    payload.consumerAddress = await consumer.getAddress()
+    payload.consumerAddress = consumerAddress
     payload.signature = signature
     payload.nonce = nonce
     payload.environment = computeEnv
     payload.dataset = dataset
     payload.algorithm = algorithm
-    if (payload.additionalDatasets) payload.additionalDatasets = additionalDatasets
+    if (additionalDatasets) payload.additionalDatasets = additionalDatasets
     if (output) payload.output = output
     if (!computeStartUrl) return null
     let response
@@ -603,13 +630,15 @@ export class Provider {
       ? this.getEndpointURL(serviceEndpoints, 'computeStop').urlPath
       : null
 
-    const nonce = await this.getNonce(
-      providerUri,
-      consumerAddress,
-      signal,
-      providerEndpoints,
-      serviceEndpoints
-    )
+    const nonce = (
+      (await this.getNonce(
+        providerUri,
+        consumerAddress,
+        signal,
+        providerEndpoints,
+        serviceEndpoints
+      )) + 1
+    ).toString()
 
     let signatureMessage = consumerAddress
     signatureMessage += jobId || ''
@@ -620,6 +649,7 @@ export class Provider {
     payload.signature = signature
     payload.documentId = this.noZeroX(did)
     payload.consumerAddress = consumerAddress
+    payload.nonce = nonce
     if (jobId) payload.jobId = jobId
 
     if (!computeStopUrl) return null
@@ -739,7 +769,15 @@ export class Provider {
       ? this.getEndpointURL(serviceEndpoints, 'computeResult').urlPath
       : null
 
-    const nonce = Date.now()
+    const nonce = (
+      (await this.getNonce(
+        providerUri,
+        await consumer.getAddress(),
+        null,
+        providerEndpoints,
+        serviceEndpoints
+      )) + 1
+    ).toString()
     let signatureMessage = await consumer.getAddress()
     signatureMessage += jobId
     signatureMessage += index.toString()
@@ -779,13 +817,15 @@ export class Provider {
       ? this.getEndpointURL(serviceEndpoints, 'computeDelete').urlPath
       : null
 
-    const nonce = await this.getNonce(
-      providerUri,
-      await consumer.getAddress(),
-      signal,
-      providerEndpoints,
-      serviceEndpoints
-    )
+    const nonce = (
+      (await this.getNonce(
+        providerUri,
+        await consumer.getAddress(),
+        signal,
+        providerEndpoints,
+        serviceEndpoints
+      )) + 1
+    ).toString()
 
     let signatureMessage = await consumer.getAddress()
     signatureMessage += jobId || ''

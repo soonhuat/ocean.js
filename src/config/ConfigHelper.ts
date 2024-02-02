@@ -143,11 +143,30 @@ export const configHelperNetworks: Config[] = [
     chainId: 100,
     network: 'gen-x-testnet',
     nodeUri: 'https://rpc.genx.minimal-gaia-x.eu',
-    providerUri: 'https://v4.provider.goerli.oceanprotocol.com',
-    subgraphUri: 'https://v4.subgraph.goerli.oceanprotocol.com',
-    explorerUri: 'https://logging.genx.minimal-gaia-x.eu/',
-    gasFeeMultiplier: 1.05
+    metadataCacheUri: 'https://aquarius.v4.delta-dao.com',
+    providerUri: 'https://provider.v4.genx.delta-dao.com',
+    subgraphUri: 'https://subgraph.v4.genx.minimal-gaia-x.eu',
+    explorerUri: 'https://explorer.genx.minimal-gaia-x.eu/',
+    gasFeeMultiplier: 1
   },
+  {
+    ...configHelperNetworksBase,
+    chainId: 10,
+    network: 'optimism',
+    nodeUri: 'https://mainnet.optimism.io',
+    subgraphUri: 'https://v4.subgraph.optimism.oceanprotocol.com',
+    explorerUri: 'https://optimistic.etherscan.io/',
+    gasFeeMultiplier: 1.1
+  },
+  {
+    ...configHelperNetworksBase,
+    chainId: 11155420,
+    network: 'optimism_sepolia',
+    nodeUri: 'https://sepolia.optimism.io',
+    subgraphUri: 'https://v4.subgraph.optimism-sepolia.oceanprotocol.com',
+    explorerUri: 'https://sepolia-optimism.etherscan.io/',
+    gasFeeMultiplier: 1.1
+  }
   {
     ...configHelperNetworksBase,
     chainId: 13520,
@@ -157,7 +176,7 @@ export const configHelperNetworks: Config[] = [
     subgraphUri: 'https://v4.subgraph.goerli.oceanprotocol.com',
     explorerUri: '',
     gasFeeMultiplier: 1.05
-  }
+  },
 ]
 
 export class ConfigHelper {
@@ -165,9 +184,8 @@ export class ConfigHelper {
   public getAddressesFromEnv(network: string, customAddresses?: any): Partial<Config> {
     // use the defaults first
     let configAddresses: Partial<Config>
-
     // load from custom addresses structure
-    if (customAddresses) {
+    if (customAddresses && customAddresses[network]) {
       const {
         FixedPrice,
         Dispenser,
@@ -201,7 +219,8 @@ export class ConfigHelper {
         DFRewards,
         DFStrategyV1,
         veFeeEstimate,
-        ...(process.env.AQUARIUS_URI && { metadataCacheUri: process.env.AQUARIUS_URI })
+        ...(process.env.AQUARIUS_URL && { metadataCacheUri: process.env.AQUARIUS_URL }),
+        ...(process.env.PROVIDER_URL && { providerUri: process.env.PROVIDER_URL })
       }
     } else {
       // no custom addresses structure was passed, trying to load default
@@ -239,7 +258,8 @@ export class ConfigHelper {
           DFRewards,
           DFStrategyV1,
           veFeeEstimate,
-          ...(process.env.AQUARIUS_URI && { metadataCacheUri: process.env.AQUARIUS_URI })
+          ...(process.env.AQUARIUS_URL && { metadataCacheUri: process.env.AQUARIUS_URL }),
+          ...(process.env.PROVIDER_URL && { providerUri: process.env.PROVIDER_URL })
         }
       }
     }
@@ -263,7 +283,13 @@ export class ConfigHelper {
       return null
     }
 
-    const contractAddressesConfig = this.getAddressesFromEnv(config.network)
+    let addresses
+    try {
+      addresses = JSON.parse(process.env.ADDRESS_FILE)
+    } catch (e) {
+      addresses = null
+    }
+    const contractAddressesConfig = this.getAddressesFromEnv(config.network, addresses)
     config = { ...config, ...contractAddressesConfig }
 
     const nodeUri = infuraProjectId

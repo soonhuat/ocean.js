@@ -1,6 +1,6 @@
 import { assert, expect } from 'chai'
 import { getTestConfig, provider, getAddresses } from '../config'
-import { ethers, Signer, providers } from 'ethers'
+import { ethers, Signer } from 'ethers'
 import {
   NftFactory,
   NftCreateData,
@@ -132,7 +132,7 @@ describe('Nft Factory test', () => {
       fixedRate: '1',
       marketFee: FEE,
       allowedConsumer: await user1.getAddress(),
-      withMint: false
+      withMint: true
     }
 
     const tx = await nftFactory.createNftWithDatatokenWithFixedRate(

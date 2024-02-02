@@ -1,14 +1,7 @@
 import { ethers, Signer, providers, Contract, ContractFunction, BigNumber } from 'ethers'
 
 import { Config } from '../config'
-import {
-  minAbi,
-  GASLIMIT_DEFAULT,
-  LoggerInstance,
-  FEE_HISTORY_NOT_SUPPORTED,
-  GAS_PRICE,
-  GASLIMIT
-} from '.'
+import { minAbi } from '.'
 
 const MIN_GAS_FEE_POLYGON = 30000000000 // minimum recommended 30 gwei polygon main and mumbai fees
 const POLYGON_NETWORK_ID = 137
